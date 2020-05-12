@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Rregister{% endblock %}
+{% block header_text %}Registration{% endblock %}
+
+{% block content %}
+
+    <form action="" method="POST">
+        {{ form }}
+        {% csrf_token %}
+        <button>Register</button>
+    </form>
+
+{% endblock %}

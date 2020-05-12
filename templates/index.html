@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Rooms{% endblock %}
+{% block header_text %}Room List{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'chat:room' %}"><button>Chat Room List</button></a>
+{% if request.user.user_profile.type == 'page_admin' %}
+<a href="{% url 'chat:admin_dashboard' %}" ><button>Show My page</button></a>
+{% endif %}
+{% endblock %}

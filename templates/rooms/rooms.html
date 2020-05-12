@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Rooms{% endblock %}
+{% block header_text %}Room List{% endblock %}
+
+{% block content %}
+
+<table class="table align-items-center table-striped table-bordered table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th>Rooms Id</th>
+        <th>Name</th>
+        <th></th>
+        <th class="text-center">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for room in rooms %}
+        <tr>
+            <td>{{room.id|stringformat:"03d"}}</td>
+            <td>{{room.title|title}}</td>
+            <td></td>
+            <td class="text-center">
+                <a href="{% url 'chat:room_detail' pk=room.id %}"><button>View Room</button></a>&nbsp;
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
