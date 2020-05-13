@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Room, RoomAdmin
+from .models import Room, RoomAdmin, PublicRoom
 
 
 admin.site.register(
@@ -8,3 +8,5 @@ admin.site.register(
     list_display_links=["id", "title"],
 )
 admin.site.register(RoomAdmin)
+admin.site.register(PublicRoom)
+

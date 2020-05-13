@@ -4,11 +4,17 @@
 {% block header_text %}Registration{% endblock %}
 
 {% block content %}
+	<form action="" method="post">	
+		{% csrf_token %}
+	<input type="text" name="username" placeholder="UserName"><br>
+	<input type="password" name="password1" placeholder="Password"><br>
+	<input type="password" name="password2" placeholder="Confirm Password"><br>
+	<input type="text" name="email" placeholder="Email"><br>
+	<input type="text" name="phone" placeholder="Phone"><br>
+	<input type="text" name="company" placeholder="Company"><br>
+	<input type="submit" value="Signup">
 
-    <form action="" method="POST">
-        {{ form }}
-        {% csrf_token %}
-        <button>Register</button>
-    </form>
+	</form>
+
 
 {% endblock %}

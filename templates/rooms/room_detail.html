@@ -21,11 +21,17 @@
 <table>
     <tr>
     <th>member name</th>
+    <th>status</th>
     <th>Chat with member personally</th>
     </tr>
     {% for user in room_detail.user.all %}
 
     <td>{{user.username}}</td>
+    {% if user.is_authenticated %}
+    <td>online</td>
+    {% else %}
+    <td>offlie</td>
+    {% endif %}
     <td><button>chat</button></td>
     {% endfor %}
 </table>

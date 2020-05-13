@@ -2,6 +2,7 @@ from django.urls import path
 from chat import views
 
 urlpatterns = [
+    path('room/create/', views.CreateRoomView.as_view(), name='create_room'),
     path('room/list/', views.Rooms.as_view(), name='room'),
     path('room/detail/<int:pk>/', views.RoomDetailView.as_view(),name='room_detail'),
     path('room/status/requeste/', views.MemberPAgeRequestAPIView.as_view(),

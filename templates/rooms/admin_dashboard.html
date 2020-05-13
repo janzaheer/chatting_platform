@@ -20,7 +20,7 @@
         <th>id</th>
         <th>member name</th>
         <th>type</th>
-        <th>action</th>
+        <th>accept request</th>
         <th>Chat with member personally</th>
     </tr>
 
@@ -29,14 +29,20 @@
         <td id=user_id value="{{user.id}}">{{user.id}}</td>
         <td>{{user.username}}</td>
         <td>{{user.user_profile.type}}</td>
-        <td><button class="confirm_btn">Accept Request</button>
-</td>
+        {% if user.user_profile.type == 'user' %}
+        <td><button>accpet request</button></td>
+        {% else %}
+        <td>accepted</td>
+        {% endif %}
         <td><button>chat</button></td>
     </tr>
 
     {% endfor %}
 
 </table>
+<br>
+<br>
+<br>
 </div>
 {% endblock %}
 

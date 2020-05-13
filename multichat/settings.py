@@ -35,6 +35,7 @@ CHANNEL_LAYERS = {
 # ASGI_APPLICATION should be set to your outermost router
 ASGI_APPLICATION = 'multichat.routing.application'
 
+LOGOUT_REDIRECT_URL = 'user_login'
 
 ##### Project-specific settings
 

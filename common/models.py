@@ -19,10 +19,8 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE,
                                 related_name='user_profile')
-    facebook_id = models.BigIntegerField(blank=True, unique=True, null=True)
-    access_token = models.TextField(blank=True, null=True)
-    google_access_token = models.TextField(blank=True, null=True)
-    facebook_profile_url = models.TextField(blank=True, null=True)
+    company_name = models.CharField(max_length=200, null=True, blank=True)
+    email = models.CharField(max_length=100, null=True, blank=True)
     date_of_birth = models.DateField(blank=True, null=True)
     profile_name = models.CharField(max_length=256, blank=True, null=True)
     profile_image = models.ImageField(upload_to="customer/profile/", null=True, blank=True)

@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .models import Room, RoomAdmin
+from .models import Room, RoomAdmin, PublicRoom
 from django.views.generic import View, DeleteView, ListView, FormView, UpdateView, TemplateView
 from django.http import JsonResponse, HttpResponseRedirect, Http404
 from django.urls import reverse_lazy, reverse
 from common.models import MemberChatRoom, UserProfile
 from django.contrib.auth.models import User
 from django.http import Http404
-from .forms import RoomAdminForm
+from .forms import RoomAdminForm, RoomForm
 from django.db import transaction
 from common.models import UserProfile
 
@@ -59,6 +59,25 @@ class CreatePageAdminView(FormView):
         })
         return context
 
+class CreateRoomView(FormView):
+    form_class = RoomForm
+    template_name = "rooms/create_room.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('user_login'))
+        return super(
+            CreateRoomView, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            form.save()
+            return HttpResponseRedirect(reverse('chat:owner_dashboard'))
+
+    def form_invalid(self, form):
+        return super(CreateRoomView, self).form_invalid(form)
+
+
 class Rooms(TemplateView):
     template_name = 'rooms/rooms.html'
 
@@ -96,17 +115,21 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
     def dispatch(self, request, *args, **kwargs):
-
-        if self.request.user.is_authenticated:
-            if (
-                self.request.user.user_profile.type ==
-                self.request.user.user_profile.USER_TYPE_OWNER
-            ):
-                return HttpResponseRedirect(reverse('chat:owner_dashboard'))
+        if not self.request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('user_login'))
+        return super(
+            IndexView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(index, self).get_context_data(**kwargs)
+        context = super(
+            IndexView, self).get_context_data(**kwargs)
+        public_room = PublicRoom.objects.all()
+        context.update({
+            'room': public_room,
+
+        })
         return context
+
 
 # @login_required
 # def index(request):
