@@ -29,12 +29,27 @@ class LoginView(FormView):
                print("______________________o____________-")
 
                return HttpResponseRedirect(reverse("index"))
+           elif (
+                   self.request.user.user_profile.type ==
+                   self.request.user.user_profile.USER_TYPE_MEMBER
+           ):
+               print("______________________o____________-")
+
+               return HttpResponseRedirect(reverse("index"))
+           elif (
+                   self.request.user.user_profile.type ==
+                   self.request.user.user_profile.USER_TYPE_PAGE_ADMIN
+           ):
+               print("______________________o____________-")
+
+               return HttpResponseRedirect(reverse("index"))
 
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         user = form.get_user()
         auth_login(self.request, user)
+        print("________________________________")
         return HttpResponseRedirect(reverse('user_login'))
 
     def form_invalid(self, form):
