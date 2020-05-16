@@ -76,7 +76,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="" method="post">	
+                            <form action="{% url 'chat:create_room' %}" method="post">	
                                 {% csrf_token %}
                                 
                                 <div class="form-group mb-3">
