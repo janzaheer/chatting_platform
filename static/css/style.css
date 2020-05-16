@@ -101,19 +101,50 @@ p {
 }
     #chats .room {
         border: 1px solid #ccc;
-        padding: 5px;
+        padding: 20px;
         margin: 30px 0 0 0;
+        border-radius: 10px;
     }
     #chats h2 {
         color: #333;
-        margin: 2px 0 5px 0;
+        margin: 2px 0 10px 0;
         font-weight: bold;
+        font-size: 20px;
+        text-transform: capitalize;
     }
     #chats .messages {
         height: 200px;
         overflow: auto;
         background: #eee;
-        margin: 2px 0 5px 0;
+        margin: 2px 0 15px 0;
+        border-radius: 10px;
+    }
+    #chats .message
+    {
+        margin: 20px;
+        padding: 10px;
+        background: #dedede;
+        border-radius: 5px;
+    }
+    #chats input {
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        width: 84%;
+        border-radius: 25px;
+    }
+    #chats input:focus {
+        outline: none;
+    }
+    #chats button {
+        background: #343940;
+        color: #fff;
+        border: 0;
+        padding: 5px 25px;
+        border-radius: 25px;
+        margin: 0 0 0 10px;
+    }
+    #chats button:focus {
+        outline: none;
     }
     #chats .username {
         display: inline-block;

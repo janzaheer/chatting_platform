@@ -4,59 +4,100 @@
 {% block header_text %}Owner Dashboard{% endblock %}
 
 {% block content %}
-<h1>Owner Dashboard</h1>
-<a href="{% url 'chat:create_room' %}"><button>Create new Room</button></a>
-<table class="table align-items-center table-striped table-bordered table-hover">
-    <h1>Rooms</h1>
-    <thead class="thead-dark">
-    <tr>
-        <th>Rooms Id</th>
-        <th>Name</th>
-        <th></th>
-        <th class="text-center">Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for room in rooms %}
-        <tr>
-            <td>{{room.id|stringformat:"03d"}}</td>
-            <td>{{room.title|title}}</td>
-            <td></td>
-            <td class="text-center">
-            <button><li class="room-link" data-room-id="{{ room.id }}">Chat</li></button>
-            <button><a href="{% url 'chat:create_room_admin' pk=room.id %}">Crete page admin</a></button>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
- <div id="chats">
+
+<div class="row border-bottom py-3">
+    <div class="col-md-6">
+        <h3>Owner Dashboard</h3>
     </div>
+    <div class="col-md-6">
+        <a class="btn btn-success float-right text-white" data-toggle="modal" data-target="#createRoomModal">Create new Room</a>
+        <!-- <a class="btn btn-success float-right" href="{% url 'chat:create_room' %}">Create new Room</a> -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="pt-4">
+            <table class="table align-items-center table-striped table-bordered table-hover">
+                <h3 class="py-3">Rooms</h3>
+                <thead class="thead-dark">
+                <tr>
+                    <th>Rooms Id</th>
+                    <th>Name</th>
+                    <th class="text-center">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for room in rooms %}
+                    <tr>
+                        <td>{{room.id|stringformat:"03d"}}</td>
+                        <td>{{room.title|title}}</td>
+                        <td class="text-center">
+                            <a class="btn btn-warning room-link" data-room-id="{{ room.id }}">Chat</a>
+                            <a class="btn btn-info" href="{% url 'chat:create_room_admin' pk=room.id %}">Crete page admin</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div id="chats"></div>
+        </div>
+    </div>
+</div>
+
+<div class="chat-users border">
+    <h4 class="head">Chats</h4>
+    <ul>
+        {% for user in members %}
+            <li class="col border-bottom py-2">
+                <span class="mb-0">{{user.id|stringformat:"03d"}}</span>
+                <span><strong>{{user.username|title}}</strong></span>
+                <span class="text-center float-right">
+                    <a class="btn btn-warning py-0">Chat</a>
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 
 
-<table class="table align-items-center table-striped table-bordered table-hover">
-    <h1>Users</h1>
-    <thead class="thead-dark">
-    <tr>
-        <th>User Id</th>
-        <th>Username</th>
-        <th></th>
-        <th class="text-center">Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for user in members %}
-        <tr>
-            <td>{{user.id|stringformat:"03d"}}</td>
-            <td>{{user.username|title}}</td>
-            <td></td>
-            <td class="text-center">
-                <a href=""><button>Chat</button></a>&nbsp;
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<!-- Modal -->
+<div class="modal fade" id="createRoomModal" tabindex="-1" role="dialog" aria-labelledby="createRoomModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="createRoomModalLabel">Create Room</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="" method="post">	
+                                {% csrf_token %}
+                                
+                                <div class="form-group mb-3">
+                                    <label>Room</label>
+                                    <input type="text" class="form-control" name="title" placeholder="Room Title">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}
 
@@ -163,7 +204,7 @@
             };
 
             // Room join/leave
-            $("li.room-link").click(function () {
+            $("a.room-link").click(function () {
                 roomId = $(this).attr("data-room-id");
                 if (inRoom(roomId)) {
                     // Leave room

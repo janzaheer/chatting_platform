@@ -4,17 +4,39 @@
 {% block header_text %}Room List{% endblock %}
 
 {% block content %}
-<h1>Create PAge Admin</h1>
-<form accept="" method="post">
-    {% csrf_token %}
-    <input type="text" value="{{room.title}}" readonly>
-    <input type="hidden" name="room" value="{{room.id}}">
-    <select name="user">
-        <option>Select Admin For Page</option>
-        {% for user in users %}
-        <option value="{{user.id}}">{{user.username}}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" name="ok">
-</form>
+<h3 class="border-bottom py-3">Create Page Admin</h3>
+
+
+<div class="row justify-content-center pt-5">
+    <div class="col-md-6 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <form accept="" method="post">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label>Room Title</label>
+                        <input type="text" value="{{room.title}}" readonly class="form-control">
+                    </div>
+
+                    <input type="hidden" name="room" value="{{room.id}}">
+
+                    <div class="form-group">
+                        <label>Select Admin For Page</label>
+                        <select name="user" class="form-control">
+                            <option selected>Choose...</option>
+
+                            {% for user in users %}
+                                <option value="{{user.id}}">{{user.username}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" name="ok">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    
 {% endblock %}

@@ -5,36 +5,36 @@
 
 {% block content %}
 {% for room in room_detail.room.all %}
-           <button><li class="room-link" data-room-id="{{ room.id }}">Chat &nbsp;{{ room }}</li></button>
+    <a class="room-link btn btn-success text-white text-capitalize" data-room-id="{{ room.id }}">Chat &nbsp;{{ room }}</a>
 {% endfor %}
- <div id="chats">
-    </div>
-<br>
-<br>
-<br>
-<div>all members</div>
-<br>
-<br>
-<table>
-    <tr>
-        <th>id</th>
-        <th>member name</th>
-        <th>type</th>
-        <th>accept request</th>
-        <th>Chat with member personally</th>
-    </tr>
+ <div id="chats"></div>
+
+<div class="pt-3 pb-4">
+    <h3>All Members</h3>
+</div>
+
+<table class="table align-items-center table-striped table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>Member name</th>
+            <th>Type</th>
+            <th>Accept request</th>
+            <th>Personal Chat</th>
+        </tr>
+    </thead>
 
     {% for user in room_detail.user.all %}
     <tr>
-        <td id=user_id value="{{user.id}}">{{user.id}}</td>
-        <td>{{user.username}}</td>
-        <td>{{user.user_profile.type}}</td>
+        <td class="text-capitalize" id=user_id value="{{user.id}}">{{user.id}}</td>
+        <td class="text-capitalize">{{user.username}}</td>
+        <td class="text-capitalize">{{user.user_profile.type}}</td>
         {% if user.user_profile.type == 'user' %}
-        <td><button>accpet request</button></td>
+        <td class="text-capitalize"><button>accpet request</button></td>
         {% else %}
-        <td>accepted</td>
+        <td class="text-capitalize">accepted</td>
         {% endif %}
-        <td><button>chat</button></td>
+        <td class="text-capitalize"><button class="btn btn-success">Chat</button></td>
     </tr>
 
     {% endfor %}
@@ -149,7 +149,7 @@
             };
 
             // Room join/leave
-            $("li.room-link").click(function () {
+            $("a.room-link").click(function () {
                 roomId = $(this).attr("data-room-id");
                 if (inRoom(roomId)) {
                     // Leave room
