@@ -4,42 +4,77 @@
 {% block header_text %}{% endblock %}
 
 {% block content %}
-<h1>{{room.title}}</h1>
-<h2>{{room.description}}</h2>
-<div class="confirmation-btn"></div>
 
-{% if room_detail.status == 'requested' %}
-<div style="color:red;">Your Request was send Successfully </div>
-{% elif room_detail.status == 'approved' %}
-<div style="color: blue;"> your request is approved by  admin</div>
-{% else %}
-<button class="confirm_btn">Send Request</button>
-{% endif %}
-{% if room_detail.status == 'approved' %}
-<button class="room-link" data-room-id="{{ room.id }}">Chat</button>
-<div>all members
-<table>
-    <tr>
-    <th>member name</th>
-    <th>status</th>
-    <th>Chat with member personally</th>
-    </tr>
-    {% for user in room_detail.user.all %}
 
-    <td>{{user.username}}</td>
-    {% if user.is_authenticated %}
-    <td>online</td>
-    {% else %}
-    <td>offlie</td>
-    {% endif %}
-    <td><button>chat</button></td>
-    {% endfor %}
-</table>
+<div class="row py-3">
+    <div class="col-md-6">
+        <h3 class="text-capitalize">{{room.title}}</h3>
+        <h4 class="text-capitalize">{{room.description}}</h4>
+        <div class="confirmation-btn"></div>
+    </div>
+    <div class="col-md-6 d-flex">
+            {% if room_detail.status == 'requested' %}
+                <div class="text-danger text-capitalize">Your Request was send Successfully </div>
+            {% elif room_detail.status == 'approved' %}
+                <div class="text-success text-capitalize"> your request is approved by  admin</div>
+            {% else %}
+                <button class="confirm_btn btn btn-primary ml-3">Send Request</button>
+            {% endif %}
+            {% if room_detail.status == 'approved' %}
+                <button class="room-link btn btn-success ml-3" data-room-id="{{ room.id }}">Chat</button>
+    </div>
+</div>
+
+
+<div>
+    <a class="btn btn-primary text-white" data-toggle="modal" data-target="#roomMemeberModal">Room Member</a>
 </div>
 {% endif %}
  
-  <div id="chats">
+  <div id="chats"></div>
+
+  <!-- Modal -->
+<div class="modal fade" id="roomMemeberModal" tabindex="-1" role="dialog" aria-labelledby="roomMemeberModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="roomMemeberModalLabel">Room Member</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <table class="table align-items-center table-striped table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Member name</th>
+                                <th>Status</th>
+                                <th>Personal Chat</th>
+                            </tr>
+                        </thead>
+                        {% for user in room_detail.user.all %}
+                
+                        <td>{{user.username}}</td>
+                        {% if user.is_authenticated %}
+                        <td>online</td>
+                        {% else %}
+                        <td>offlie</td>
+                        {% endif %}
+                        <td><button class="btn btn-success">chat</button></td>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        </div>
     </div>
+</div>
 
 {% endblock %}
 
