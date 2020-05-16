@@ -1,0 +1,49 @@
+.chat-users
+{
+    position: fixed;
+    width: 20%;
+    right: 0;
+    bottom: 0;
+    height: 60vh;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.chat-users .head {
+    background: var(--success);
+    font-size: 18px;
+    padding: 10px;
+    color: var(--white);
+}
+
+.register input {
+    border: 1px solid #ccc;
+    margin: 10px 0 10px 0 !important;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.login-form input, .login-form label {
+    display: block;
+}
+
+.login-form label 
+{
+    margin: 20px 0 0 0;
+}
+
+.login-form input
+{
+    border: 1px solid #ccc;
+    margin: 10px 0 10px 0 !important;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.login-form button
+{
+    display: block;
+    margin: auto;
+}

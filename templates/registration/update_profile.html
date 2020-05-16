@@ -4,14 +4,13 @@
 {% block header_text %}Registration{% endblock %}
 
 {% block content %}
-	<form action="" method="post">	
+	<form action="" method="post" class="register">	
 		{% csrf_token %}
-	<input type="hidden" name="user" value="{{object.user.id}}">
-	<input type="text" name="email" value="{{object.email}}"><br>
-	<input type="text" name="phone" value="{{object.phone}}"><br>
-	<input type="text" name="company_name" value="{{object.company_name}}"><br>
-	<input type="submit" value="Signup">
-
+		<input type="hidden" name="user" value="{{object.user.id}}">
+		<input type="text" name="email" value="{{object.email}}"><br>
+		<input type="text" name="phone" value="{{object.phone}}"><br>
+		<input type="text" name="company_name" value="{{object.company_name}}"><br>
+		<input class="btn btn-primary mt-3" type="submit" value="Signup">
 	</form>
 
 

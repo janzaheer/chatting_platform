@@ -4,19 +4,27 @@
 {% block header_text %}Room List{% endblock %}
 
 {% block content %}
-username:<h1>{{request.user.username|title}}</h1>
-usertype: {{request.user.user_profile.type}}<br>
-{% for room in room %}
-           <button><li class="room-link" data-room-id="{{ room.id }}">Chat &nbsp;{{ room }}</li></button>
-{% endfor %}
- <div id="chats">
+
+    <div class="row border-bottom mb-4">
+        <div class="col-md-9 col-6"><h3>{{request.user.username|title}}</h3></div>
+        <div class="col-md-3 col-6"><p class="text-muted text-capitalize">{{request.user.user_profile.type}}</p></div>
     </div>
-<a href="{% url 'chat:room' %}"><button>Chat Room List</button></a>
-{% if request.user.user_profile.type == 'page_admin' %}
-<a href="{% url 'chat:admin_dashboard' %}" ><button>Show My page</button></a>
-{% endif %}
-<a href="{% url 'profile_update' pk=request.user.id %}">Update Profile</a>
-{% endblock %}
+
+    {% for room in room %}
+        <a class="room-link btn btn-success text-white text-capitalize" data-room-id="{{ room.id }}">Chat &nbsp;{{ room }}</a>
+    {% endfor %}
+
+    <div id="chats" class="my-4"></div>
+
+    <a class="btn btn-primary" href="{% url 'chat:room' %}">Chat Room List</a>
+
+    {% if request.user.user_profile.type == 'page_admin' %}
+        <a class="btn btn-info" href="{% url 'chat:admin_dashboard' %}" >Show My page</a>
+    {% endif %}
+
+    <a class="btn btn-warning" href="{% url 'profile_update' pk=request.user.id %}">Update Profile</a>
+    {% endblock %}
+
 {% block extra_body %}
     <script>
         $(function () {
@@ -120,7 +128,7 @@ usertype: {{request.user.user_profile.type}}<br>
             };
 
             // Room join/leave
-            $("li.room-link").click(function () {
+            $("a.room-link").click(function () {
                 roomId = $(this).attr("data-room-id");
                 if (inRoom(roomId)) {
                     // Leave room

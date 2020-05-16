@@ -10,7 +10,6 @@
     <tr>
         <th>Rooms Id</th>
         <th>Name</th>
-        <th></th>
         <th class="text-center">Action</th>
     </tr>
     </thead>
@@ -19,9 +18,8 @@
         <tr>
             <td>{{room.id|stringformat:"03d"}}</td>
             <td>{{room.title|title}}</td>
-            <td></td>
             <td class="text-center">
-                <a href="{% url 'chat:room_detail' pk=room.id %}"><button>View Room</button></a>&nbsp;
+                <a class="btn btn-primary" href="{% url 'chat:room_detail' pk=room.id %}">View Room</a>
             </td>
         </tr>
     {% endfor %}

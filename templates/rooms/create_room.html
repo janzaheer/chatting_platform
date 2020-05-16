@@ -4,12 +4,23 @@
 {% block header_text %}Create Room{% endblock %}
 
 {% block content %}
-	<form action="" method="post">	
-		{% csrf_token %}
-	<input type="text" name="title" placeholder="Room Title"><br>
-	<input type="submit" value="Create">
 
-	</form>
-
+	<div class="row justify-content-center">
+		<div class="col-md-6 col-sm-12">
+			<div class="card">
+				<div class="card-body">
+					<form action="" method="post">	
+						{% csrf_token %}
+						
+						<div class="form-group mb-3">
+							<label>Room</label>
+							<input type="text" class="form-control" name="title" placeholder="Room Title">
+						</div>
+						<button type="submit" class="btn btn-primary">Create</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock %}
