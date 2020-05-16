@@ -4,17 +4,26 @@
 {% block header_text %}Registration{% endblock %}
 
 {% block content %}
-	<form action="" method="post">	
-		{% csrf_token %}
-	<input type="text" name="username" placeholder="UserName"><br>
-	<input type="password" name="password1" placeholder="Password"><br>
-	<input type="password" name="password2" placeholder="Confirm Password"><br>
-	<input type="text" name="email" placeholder="Email"><br>
-	<input type="text" name="phone" placeholder="Phone"><br>
-	<input type="text" name="company" placeholder="Company"><br>
-	<input type="submit" value="Signup">
 
-	</form>
+	<div class="row justify-content-center">
+		<div class="col-md-8 col-12">
+			<div class="card">
+				<div class="card-body">
+					<form action="" method="post" class="login-form">	
+						{% csrf_token %}
+						<input type="text" name="username" placeholder="UserName">
+						<input type="password" name="password1" placeholder="Password">
+						<input type="password" name="password2" placeholder="Confirm Password">
+						<input type="text" name="email" placeholder="Email">
+						<input type="text" name="phone" placeholder="Phone">
+						<input type="text" name="company" placeholder="Company">
 
+						<input type="submit" value="Signup" class="btn btn-success px-5 mt-3">
+				
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock %}
