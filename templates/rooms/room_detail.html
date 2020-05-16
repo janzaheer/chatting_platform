@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}Rooms{% endblock %}
-{% block header_text %}{% endblock %}
+{% block header_text %}Room Detail{% endblock %}
 
 {% block content %}
 
@@ -20,7 +20,7 @@
             {% else %}
                 <button class="confirm_btn btn btn-primary ml-3">Send Request</button>
             {% endif %}
-            {% if room_detail.status == 'approved' %}
+            {% if room_detail.status == 'approved' or request.user.user_profile.type == 'owner' %}
                 <button class="room-link btn btn-success ml-3" data-room-id="{{ room.id }}">Chat</button>
     </div>
 </div>
@@ -70,7 +70,6 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
         </div>
         </div>
     </div>
