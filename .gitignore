@@ -1,0 +1,9 @@
+ *.pyc
+common/__pycache__/
+common/migrations/__pycache__/
+multichat/__pycache__/
+
+./idea/
+.idea/*
+.vscode/
+.vscode/*
