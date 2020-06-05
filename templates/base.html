@@ -303,6 +303,7 @@ ul{
 	{% block extra_head %}{% endblock %}
 </head>
 <body>
+
 {#	<header>#}
 {#		<h1>{% block header_text %}{% endblock %}</h1>#}
 {#		{% if user.is_authenticated %}#}
@@ -316,7 +317,7 @@ ul{
 {#            <div id="header-title" style="background:url(https://cdn-akamai.6connex.com//591/1677/1584125878761_94_banner.png)">#}
 {##}
 {#            </div>#}
-
+        {% if request.user.is_authenticated %}
             <div id="header-controls" style="color:#666">
                 <ul>
 
@@ -357,9 +358,11 @@ ul{
                     </li>
                 </ul>
             </div>
+        {% endif %}
             <div class="clear"></div>
         </div>
     </div>
+
     <div class="header-settings set-detail round-5">
 
             <a class="set-item registration-info" href="javascript:void(0);">
@@ -368,7 +371,7 @@ ul{
 
         <a class="set-item download-mydata-btn" href="javascript:void(0);"> Download My Data</a>
 
-        <a class="set-item profile-setting-btn" href="{% url 'profile_update' pk=request.user.user_profile.id %}"> Profile Settings</a>
+        <a class="set-item profile-setting-btn" href="{% if request.user.is_authenticated %}{% url 'profile_update' pk=request.user.user_profile.id %}{% endif %}"> Profile Settings</a>
 
         <a class="set-item broadcast-btn hide" href="javascript:void(0);">Broadcast Message</a>
         <a class="set-item rep-chat-report-btn hide" href="javascript:void(0);">Download Chat Report</a>
@@ -376,7 +379,7 @@ ul{
         <a class="set-item reset-briefcases-btn hide" href="javascript:void(0);">Reset All Briefcases</a>
 
             <a style="display: none;" class="set-item profile-btn" href="javascript:void(0);">My Profile</a>
-            <a class="set-item login-out" href="javascript:void(0);">Logout</a>
+            <a class="set-item login-out" href="/accounts/logout/">Logout</a>
 
     </div>
     <div class="user-status-list">
@@ -406,6 +409,7 @@ ul{
 
 
 </script>
+
 	<section>
 		{% block content %}
 		{% endblock %}
