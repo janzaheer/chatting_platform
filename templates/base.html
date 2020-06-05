@@ -337,7 +337,7 @@ ul{
         </div>
         <div id="user-info-avatar" class="user-info-avatar right">
 {#            <img src="https://cdn-akamai.6connex.com//user/2020/2/26/1585243263157_Andre.jpg" onerror="this.src='https://cdn-akamai.6connex.com/static/202005270800/assets//images/default-avatar.jpg';" title="Andre De britto">#}
-            <img src="{{ request.user.user_profile.profile_image.url }}" onerror="this.src='https://cdn-akamai.6connex.com/static/202005270800/assets//images/default-avatar.jpg';" title="Andre De britto">
+            <img src="{% if request.user.user_profile.profile_image %}{{ request.user.user_profile.profile_image.url }}{% else %}https://cdn-akamai.6connex.com//user/2020/2/26/1585243263157_Andre.jpg{% endif %}">
             <div class="user-status-info user-status-online">
                 {% if request.user.user_profile.status == 'Online' %}
                 <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
