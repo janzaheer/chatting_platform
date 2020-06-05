@@ -16,9 +16,4 @@ urlpatterns = [
     	 name='admin_dashboard'),
     path('room/admin/dashboard/', views.MemberPageRequestApproveAPIView.as_view(),
     	 name='member_request_approve'),
-
-
-
-
-
 ]

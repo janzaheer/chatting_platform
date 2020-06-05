@@ -9,6 +9,39 @@ from django.db.models import Sum
 from django.contrib.auth import login as auth_login
 from .models import UserProfile
 from .forms import UserProfileForm
+from django.contrib.auth.models import User
+from django.contrib.sessions.models import Session
+from django.utils import timezone
+
+
+def get_all_logged_in_users():
+    # Query all non-expired sessions
+    # use timezone.now() instead of datetime.now() in latest versions of Django
+    sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    uid_list = []
+
+    # Build a list of user ids from that query
+    for session in sessions:
+        data = session.get_decoded()
+        uid_list.append(data.get('_auth_user_id', None))
+
+    # Query all logged in users based on id list
+    return User.objects.filter(id__in=uid_list)
+
+
+def logged_in_user_ids():
+    # Query all non-expired sessions
+    # use timezone.now() instead of datetime.now() in latest versions of Django
+    sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    uid_list = []
+
+    # Build a list of user ids from that query
+    for session in sessions:
+        data = session.get_decoded()
+        uid_list.append(data.get('_auth_user_id', None))
+
+    return uid_list
+
 
 class LoginView(FormView):
     template_name = 'registration/login.html'
@@ -50,7 +83,7 @@ class LoginView(FormView):
         user = form.get_user()
         auth_login(self.request, user)
         print("________________________________")
-        return HttpResponseRedirect(reverse('user_login'))
+        return HttpResponseRedirect(reverse('chat:room_detail', kwargs={'pk':2}))
 
     def form_invalid(self, form):
         return super(LoginView, self).form_invalid(form)
@@ -87,9 +120,18 @@ class UserProfileUpdateView(UpdateView):
 
     def form_valid(self, form):
         obj=form.save()
-        return HttpResponseRedirect(reverse('index'))
+        return HttpResponseRedirect(
+            reverse('chat:room_detail', kwargs={'pk': 2}))
 
     def form_invalid(self, form):
         print(form.errors)
         print("_________________________")
         return super(UserProfileUpdateView, self).form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileUpdateView, self).get_context_data(**kwargs)
+        context.update({
+            'total_logged_in_users': get_all_logged_in_users().count(),
+        })
+        return context
+

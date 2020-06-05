@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Room(models.Model):
@@ -57,3 +58,14 @@ class RoomAdmin(models.Model):
 
     def __str__(self):
         return self.room.title
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(
+        User, related_name='user_comment', on_delete=models.CASCADE)
+    content = models.TextField(max_length=500, blank=True, null=True)
+    date = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.user.username

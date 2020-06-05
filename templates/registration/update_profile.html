@@ -4,17 +4,26 @@
 {% block header_text %}Update Profile{% endblock %}
 
 {% block content %}
-	<form action="" method="post" class="register">	
-		{% csrf_token %}
-		<input type="hidden" name="user" value="{{object.user.id}}">
-		<label>Email</label>
-		<input type="text" name="email" value="{{object.email}}"><br>
-		<label>Phone</label>
-		<input type="text" name="phone" value="{{object.phone}}"><br>
-		<label>Company Name</label>
-		<input type="text" name="company_name" value="{{object.company_name}}"><br>
-		<input class="btn btn-primary mt-3" type="submit" value="Signup">
-	</form>
+    <form action="" method="post" class="register" style="background-color: #eee; padding: 20px; margin-top: 30px" enctype="multipart/form-data">
+        <h2 class="text-center"> Personal Settings</h2>
+        {% csrf_token %}
+        <input type="hidden" name="user" value="{{object.user.id}}">
+        <label><strong>Email</strong></label>
+        <input type="text" name="email" value="{{object.email|default:""}}"><br>
+        <label><strong>Phone</strong></label>
+        <input type="text" name="phone" value="{{object.phone|default:""}}"><br>
+        <label><strong>Company Name</strong></label>
+        <input type="text" name="company_name" value="{{object.company_name|default:""}}"><br>
+        <label><strong>Profile Image</strong></label>
+        <input type="file" name="profile_image" value="{{ object.profile_image.url }}"><br>
+        <label><strong>Status</strong></label>
+        <select class="form-control" name="status">
+            <option {% if object.status == "Online" %}selected="selected"{% endif %} value="Online">Online</option>
+            <option value="Away" {% if object.status == "Away" %}selected="selected"{% endif %}>Away</option>
+            <option value="Do not Disturb" {% if object.status == "Do Not Disturb" %}selected="selected"{% endif %}>Do Not Disturb</option>
+        </select><br>
+        <input class="btn btn-primary mt-3" type="submit" value="Update">
+    </form>
 
 
 {% endblock %}

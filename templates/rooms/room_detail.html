@@ -8,37 +8,34 @@
 
 <div class="row py-3">
     <div class="col-md-6">
-        <h3 class="text-capitalize">{{room.title}}</h3>
-        <h4 class="text-capitalize">{{room.description}}</h4>
+{#        <h3 class="text-capitalize">{{room.title}}</h3>#}
+{#        <h4 class="text-capitalize">{{room.description}}</h4>#}
         <div class="confirmation-btn"></div>
     </div>
     <div class="col-md-6 d-flex">
-            {% if room_detail.status == 'requested' %}
-                <div class="text-danger text-capitalize">Your Request was send Successfully </div>
-            {% elif room_detail.status == 'approved' %}
-                <div class="text-success text-capitalize"> your request is approved by  admin</div>
-            {% else %}
-                <button class="confirm_btn btn btn-primary ml-3">Send Request</button>
-            {% endif %}
-            {% if room_detail.status == 'approved' or request.user.user_profile.type == 'owner' %}
-                <button class="room-link btn btn-success ml-3" data-room-id="{{ room.id }}">Chat</button>
+{#            {% if room_detail.status == 'requested' %}#}
+{#                <div class="text-danger text-capitalize">Your Request was send Successfully </div>#}
+{#            {% elif room_detail.status == 'approved' %}#}
+{#                <div class="text-success text-capitalize"> your request is approved by  admin</div>#}
+{#            {% else %}#}
+{#                <button class="confirm_btn btn btn-primary ml-3">Send Request</button>#}
+{#            {% endif %}#}
+{#            {% if room_detail.status == 'approved' or request.user.user_profile.type == 'owner' %}#}
+
     </div>
 </div>
-
-
-<div>
-    <a class="btn btn-primary text-white" data-toggle="modal" data-target="#roomMemeberModal">Room Member</a>
-</div>
-{% endif %}
- 
-  <div id="chats"></div>
+{#{% endif %}#}
+    <button id="room-link" class="room-link btn btn-success btn-lg ml-3" data-room-id="{{ room.id }}"><i class="fa fa-comments"></i></button>
+    <a class="btn btn-primary text-white btn-lg" data-toggle="modal" data-target="#roomMemeberModal"><i class="fa fa-users"></i></a>
+    <div id="chats">
+    </div>
 
   <!-- Modal -->
 <div class="modal fade" id="roomMemeberModal" tabindex="-1" role="dialog" aria-labelledby="roomMemeberModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="roomMemeberModalLabel">Room Member</h5>
+            <h5 class="modal-title" id="roomMemeberModalLabel">Members</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -46,7 +43,7 @@
         <div class="modal-body">
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <table class="table align-items-center table-striped table-bordered table-hover">
+                    <table class="table align-items-center table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th>Member name</th>
@@ -54,15 +51,12 @@
                                 <th>Personal Chat</th>
                             </tr>
                         </thead>
-                        {% for user in room_detail.user.all %}
-                
+                        {% for user in online_members %}
+                        <tr>
                         <td>{{user.username}}</td>
-                        {% if user.is_authenticated %}
-                        <td>online</td>
-                        {% else %}
-                        <td>offlie</td>
-                        {% endif %}
-                        <td><button class="btn btn-success">chat</button></td>
+                        <td>{{user.user_profile.staus|default:"online"}}</td>
+                        <td><button class="btn btn-success btn-sm"><i class="fa fa-comment"></i></button></td>
+                        </tr>
                         {% endfor %}
                     </table>
                 </div>
@@ -80,6 +74,9 @@
 
 {% block extra_body %}
     <script>
+        $(window).load(function(){
+            $('#room-link').click();
+        });
         $(function () {
             // Correctly decide between ws:// and wss://
             var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
@@ -101,8 +98,8 @@
                 if (data.join) {
                     console.log("Joining room " + data.join);
                     var roomdiv = $(
-                            "<div class='room' id='room-" + data.join + "'>" +
-                            "<h2>" + data.title + "</h2>" +
+                            "<div style='margin: 10px 0 0; background: white' class='room' id='room-" + data.join + "'>" +
+                            "<h2>" + 'Group Chat' + "</h2>" +
                             "<div class='messages'></div>" +
                             "<form><input><button>Send</button></form>" +
                             "</div>"

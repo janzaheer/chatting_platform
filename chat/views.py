@@ -7,9 +7,10 @@ from django.urls import reverse_lazy, reverse
 from common.models import MemberChatRoom, UserProfile
 from django.contrib.auth.models import User
 from django.http import Http404
-from .forms import RoomAdminForm, RoomForm
+from .forms import RoomAdminForm, RoomForm, CommentForm
 from django.db import transaction
 from common.models import UserProfile
+from common.views import get_all_logged_in_users, logged_in_user_ids
 
 
 class OwnerDashboard(TemplateView):
@@ -94,6 +95,13 @@ class Rooms(TemplateView):
 class RoomDetailView(TemplateView):
     template_name = 'rooms/room_detail.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return super(RoomDetailView, self).dispatch(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(reverse('user_login'))
+
+
     def get_context_data(self, **kwargs):
         context = super(
             RoomDetailView, self).get_context_data(**kwargs)
@@ -102,11 +110,17 @@ class RoomDetailView(TemplateView):
                 room__id=self.kwargs.get('pk')
             )
         except :
-            room_detail = 'cancle'
+            room_detail = 'Cancel'
         room = Room.objects.get(id=self.kwargs.get('pk'))
+        current_location_attending = room.room_member_chat_room.first().user.filter(
+            id__in=logged_in_user_ids()).count()
+        online_members = room_detail.user.filter(id__in=logged_in_user_ids())
         context.update({
             'room': room,
-            'room_detail':room_detail
+            'room_detail':room_detail,
+            'total_logged_in_users': get_all_logged_in_users().count(),
+            'current_location_attending': current_location_attending,
+            'online_members': online_members
 
         })
         return context
@@ -126,6 +140,7 @@ class IndexView(TemplateView):
         public_room = PublicRoom.objects.all()
         context.update({
             'room': public_room,
+            'logged_in_users': get_all_logged_in_users(),
 
         })
         return context
@@ -214,3 +229,19 @@ class MemberPageRequestApproveAPIView(View):
         return JsonResponse({
             'status': status,
         })
+
+
+class PublicDiscussion(FormView):
+    template_name = 'public_discussion.html'
+    form_class = CommentForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return super(
+                PublicDiscussion, self).dispatch(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(reverse('user_login'))
+
+    def get_context_data(self, **kwargs):
+        context = super(PublicDiscussion, self).get_context_data(**kwargs)
+        return context

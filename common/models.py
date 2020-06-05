@@ -17,6 +17,18 @@ class UserProfile(models.Model):
         (USER_TYPE_MEMBER, 'member'),
     )
 
+    STATUS_ONLINE = 'Online'
+    STATUS_OFFLINE = 'Offline'
+    STATUS_AWAY = 'Away'
+    STATUS_DONT_DISTURB = 'Do not Disturb'
+
+    STATUSES = (
+        (STATUS_ONLINE, 'Online'),
+        (STATUS_OFFLINE, 'Offline'),
+        (STATUS_AWAY, 'Away'),
+        (STATUS_DONT_DISTURB, 'Do not Disturb')
+    )
+
     user = models.OneToOneField(User, on_delete=models.CASCADE,
                                 related_name='user_profile')
     company_name = models.CharField(max_length=200, null=True, blank=True)
@@ -37,6 +49,8 @@ class UserProfile(models.Model):
     company_name = models.CharField(max_length=256, blank=True, null=True)
     location = models.CharField(max_length=256, blank=True, null=True)
     address = models.CharField(max_length=256, blank=True, null=True)
+    status = models.CharField(max_length=100, choices=STATUSES,
+                             default=STATUS_ONLINE, blank=True, null=True)
 
     def __unicode__(self):
         return self.user.username
@@ -74,7 +88,9 @@ class MemberChatRoom(models.Model):
 
     user = models.ManyToManyField(User, related_name='user_member_chat_room',max_length=100
     )
-    room = models.ManyToManyField(Room, related_name='room_member_chat_room',max_length=100
+    room = models.ForeignKey(Room, related_name='room_member_chat_room',
+                             max_length=100, on_delete=models.CASCADE,
+                             blank=True,null=True
     )
     status = models.CharField(
         max_length=200, choices=CHAT_TYPES, default=CHAT_TYPE_CANCLE,

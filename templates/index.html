@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Chating Forum{% endblock %}
+{% block title %}Chatting Forum{% endblock %}
 {% block header_text %}Welcome{% endblock %}
 
 {% block content %}
-
+    {{ logged_in_users.count }} {{ request.user.user_profile.status }}
     <div class="row border-bottom mb-4">
         <div class="col-md-9 col-6"><h3>{{request.user.username|title}}</h3></div>
         <div class="col-md-3 col-6"><p class="text-muted text-capitalize">{{request.user.user_profile.type}}</p></div>

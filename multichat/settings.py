@@ -166,3 +166,6 @@ STATIC_URL = '/static/'  # also misconfigured; should be absolute URI
 STATICFILES_DIRS = (
     os.path.join(ROOT_DIR, 'app_static').replace('\\', '/'),
 )
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')

@@ -8,21 +8,404 @@
     <meta charset="UTF-8">
 	<link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css" media="screen" />
 	<link rel="stylesheet" href="{% static "css/ui-redesign.css" %}" type="text/css" />
-	<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" type="text/css" media="screen" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+{#    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">#}
+{#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">#}
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" media="screen" />
+
 
 	<script src="{% static "js/jquery-1.12.2.min.js" %}" type="text/javascript"></script>
 	<script src="{% static "js/reconnecting-websocket.min.js" %}" type="text/javascript"></script>
 	<script src="{% static "js/popper.min.js" %}" type="text/javascript"></script>
 	<script src="{% static "js/bootstrap.min.js" %}" type="text/javascript"></script>
+    <style>
+        body {
+            background: url("https://cdn-akamai.6connex.com//591/1677/1584733142197_39_6connex_Information_Center.png") center top;
+        }
+        #header-bar {
+    width: 100%;
+}
+#header {
+    position: relative;
+    z-index: 1001;
+    width: 100%;
+    height: 50px;
+    background-color: #000;
+}
+#header-container {
+    margin: auto;
+    width: 80%;
+}
+#header-title, #user-info .onlineUser-num {
+    color: #DA291C;
+}
+#header-title {
+    height: 50px;
+    width: 460px;
+    overflow: hidden;
+    line-height: 50px;
+    font-weight: bolder;
+    font-size: 20px;
+    float: left;
+    cursor: pointer;
+}
+#header-controls {
+    float: right;
+    margin-top: 8px;
+    margin-left: 10px;
+}
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-indent: 0;
+}
+#header-controls .search-box {
+    margin: 5px 0 0;
+    position: relative;
+}
+#header-controls li {
+    float: left;
+    margin-left: 25px;
+    text-align: center;
+}
+#search-keyword {
+    width: 190px;
+    height: 22px;
+    line-height: 20px;
+    color: #666;
+    float: left;
+    padding: 0 2px 0 25px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.round, .round-5 {
+    position: relative;
+    z-index: auto;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+#header-controls .search {
+    background-position: -139px 0;
+    margin-top: 2px;
+    margin-left: -19px;
+    left: 25px;
+    top: 2px;
+    position: absolute;
+}
+.main-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(https://cdn-akamai.6connex.com/static/202005270800/assets/style/event/images/main-icon-sprite.png);
+}
+#header-controls #user-info {
+    margin-left: 0;
+    width: 230px;
+}
+#header-controls .header-user {
+    float: right;
+}
+#user-info .onlineUser-num {
+    text-align: right;
+    line-height: 18px;
+    margin-right: 15px;
+    font-size: 12px;
+}
+.display-inline-table {
+    display: inline-table;
+}
+.left {
+    float: left;
+}
+.display-table-row {
+    display: table-row;
+}
+#user-info .online-user-type {
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.display-table-cell {
+    display: table-cell;
+}
+#user-info .num-tip {
+    color: inherit;
+    border-bottom: 1px solid;
+    line-height: 14px;
+}
+#header-controls .header-user .user-info-avatar {
+    position: relative;
+}
+.right {
+    float: right;
+}
+#header-controls .header-user .user-info-avatar img {
+    max-width: 35px;
+    max-height: 35px;
+}
+#header-controls .header-user .user-info-avatar .user-status-info {
+    position: absolute;
+    bottom: 1px;
+    right: 0;
+}
+#header-controls .header-user .user-info-avatar .glyphicon.glyphicon-ok-sign, .user-status-list .glyphicon.glyphicon-ok-sign {
+    color: #1ABC1A;
+}
+@media (min-width: 0){
+#header-controls .header-user .user-info-avatar .user-status-info .glyphicon {
+    background-color: #fff \9;
+	}
+}
+#header-controls .header-user .user-info-avatar .user-status-info .glyphicon {
+    font-size: 14px;
+    background-color: #fff;
+    background-color: transparent \9;
+    border-radius: 7px;
+}
+#header-controls .header-user .user-info-avatar .glyphicon {
+    display: inline-block;
+}
+#header-controls span {
+    display: block;
+    color: #fff;
+    font-size: 10px;
+}
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#header-controls .header-user .user-info-avatar .glyphicon.glyphicon-time, .user-status-list .glyphicon.glyphicon-time {
+    color: #B68F11;
+}
+#header-controls .header-user .user-info-avatar .glyphicon.glyphicon-minus-sign, .user-status-list .glyphicon.glyphicon-minus-sign {
+    color: #C31C1C;
+}
+#user-info #user-info-name {
+    margin: 10px;
+    color: #666;
+}
+#settings .set-btn {
+    border: 1px solid #ddd;
+    height: 26px;
+    width: 50px;
+    background: url(https://cdn-akamai.6connex.com/static/202005270800/assets/style/event/images/icon-arrow-down.png) 32px 8px no-repeat #fff;
+    display: block;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin-top: 2px;
+}
+.relative {
+    position: relative;
+}
+.set-btn .gear-icon {
+    width: 45px;
+    height: 26px;
+    background: url(https://cdn-akamai.6connex.com/static/202005270800/assets/style/event/images/icon-settings.png) no-repeat;
+}
+.clear {
+    clear: both;
+}
+.header-settings.set-detail:hover, .header-settings.set-detail.show {
+    display: block;
+}
+.header-settings.set-detail {
+    position: absolute;
+    top: 37px;
+    right: 0;
+    overflow: hidden;
+    width: 250px;
+    padding: 3px 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    text-align: left;
+    display: none;
+    z-index: 1998;
+}
+.hide {
+    display: none ;
+}
+.header-settings.set-detail .set-item {
+    padding: 8px 20px 9px;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    font-size: 80%;
+    color: #666;
+}
+a {
+    outline: 0;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+}
+a {
+    text-decoration: none;
+}
+
+.user-status-list {
+    display: none;
+    position: absolute;
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 8px 0;
+    width: 200px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.2);
+    top: 28px;
+    left: 50%;
+    margin-left: 330px;
+    z-index: 1998;
+}
+.user-status-list li {
+    margin-left: 0;
+    float: none;
+    text-align: left;
+    padding: 4px 15px;
+    cursor: pointer;
+}
+ul{
+	list-style: none;
+}
+.show{
+	display: block;
+}
+
+.header-settings.set-detail .set-item:hover {
+    background-color: #eee;
+}
+        .btn-circle {
+  width: 30px;
+  height: 30px;
+{#  line-height: 1.428571429;#}
+  border-radius: 50%;
+}
+    </style>
 	{% block extra_head %}{% endblock %}
 </head>
 <body>
-	<header>
-		<h1>{% block header_text %}{% endblock %}</h1>
-		{% if user.is_authenticated %}
-			<a class="py-3" href="/accounts/logout/">Logout</a>
-		{% endif %}
-	</header>
+{#	<header>#}
+{#		<h1>{% block header_text %}{% endblock %}</h1>#}
+{#		{% if user.is_authenticated %}#}
+{#			<a class="py-3" href="/accounts/logout/">Logout</a>#}
+{#		{% endif %}#}
+{#	</header>#}
+    <div id="header-bar"><div>
+    <div id="header" style="background: #f7c13c;">
+        <div id="header-container">
+
+{#            <div id="header-title" style="background:url(https://cdn-akamai.6connex.com//591/1677/1584125878761_94_banner.png)">#}
+{##}
+{#            </div>#}
+
+            <div id="header-controls" style="color:#666">
+                <ul>
+
+                    <li class="search-box">
+                        <input id="search-keyword" class="round" placeholder="Search this site">
+                        <a href="javascript:;" class="main-icon search" id="search-btn" tooltip="Click to Search"></a>
+                    </li>
+                    <li id="user-info">
+    <div class="header-user">
+        <div class="left onlineUser-num display-inline-table hide" id="online-counter" style="display: block;">
+            <div class="display-table-row"><div class="online-user-type display-table-cell">Now Attending</div><div class="display-table-cell">:&nbsp;</div><div class="display-table-cell"><a class="total-onlineUser num-tip" href="javascript:;">{{ total_logged_in_users|default:0 }}</a></div></div>
+            {% if room_detail %}
+            <div class="display-table-row"><div class="online-user-type display-table-cell">This Location</div><div class="display-table-cell">:&nbsp;</div><div class="display-table-cell"><a class="current-onlineUser num-tip" href="javascript:;">{{ current_location_attending|default:0 }}</a></div></div>
+            {% else %}
+            <div class="display-table-row"><div class="online-user-type display-table-cell">Profile Settings</div><div class="display-table-cell"></div><div class="display-table-cell"><a class="current-onlineUser num-tip" href="javascript:;"></a></div></div>
+            {% endif %}
+        </div>
+        <div id="user-info-avatar" class="user-info-avatar right">
+{#            <img src="https://cdn-akamai.6connex.com//user/2020/2/26/1585243263157_Andre.jpg" onerror="this.src='https://cdn-akamai.6connex.com/static/202005270800/assets//images/default-avatar.jpg';" title="Andre De britto">#}
+            <img src="{{ request.user.user_profile.profile_image.url }}" onerror="this.src='https://cdn-akamai.6connex.com/static/202005270800/assets//images/default-avatar.jpg';" title="Andre De britto">
+            <div class="user-status-info user-status-online">
+                {% if request.user.user_profile.status == 'Online' %}
+                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                {% elif request.user.user_profile.status == 'Away' %}
+                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                {% elif request.user.user_profile.status == 'Do not Disturb' %}
+                <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+                {% endif %}
+            </div>
+        </div>
+        <div id="user-info-name" class="left hide">Andre De britto</div>
+    </div>
+</li>
+                    <li id="settings">
+                        <div class="set-btn btn relative">
+                            <div class="gear-icon"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="header-settings set-detail round-5">
+
+            <a class="set-item registration-info" href="javascript:void(0);">
+                Edit Registration Info
+            </a>
+
+        <a class="set-item download-mydata-btn" href="javascript:void(0);"> Download My Data</a>
+
+        <a class="set-item profile-setting-btn" href="{% url 'profile_update' pk=request.user.user_profile.id %}"> Profile Settings</a>
+
+        <a class="set-item broadcast-btn hide" href="javascript:void(0);">Broadcast Message</a>
+        <a class="set-item rep-chat-report-btn hide" href="javascript:void(0);">Download Chat Report</a>
+        <a class="set-item download-attendee-btn hide" href="javascript:void(0);">Download Attendee Report</a>
+        <a class="set-item reset-briefcases-btn hide" href="javascript:void(0);">Reset All Briefcases</a>
+
+            <a style="display: none;" class="set-item profile-btn" href="javascript:void(0);">My Profile</a>
+            <a class="set-item login-out" href="javascript:void(0);">Logout</a>
+
+    </div>
+    <div class="user-status-list">
+        <ul>
+            <li onclick="VEP.event.trigger('Main.ChangeUserStatus', VEP.util.UserStatus.ONLINE)">
+                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Online
+            </li>
+            <li onclick="VEP.event.trigger('Main.ChangeUserStatus', VEP.util.UserStatus.AWAY)">
+                 <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Away
+            </li>
+            <li onclick="VEP.event.trigger('Main.ChangeUserStatus', VEP.util.UserStatus.DO_NOT_DISTURB)">
+                <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> Do not disturb
+            </li>
+        </ul>
+    </div>
+</div></div>
+<script type="text/javascript">
+    $(".set-btn").hover(function(){
+        $(".set-detail").addClass("show")},
+        function(){$(".set-detail").removeClass("show")}
+        )
+    $(".user-info-avatar").hover(function(){
+        $("#header-bar .user-status-list").addClass("show")},
+        function(){$("#header-bar .user-status-list").removeClass("show")}
+        )
+
+
+
+</script>
 	<section>
 		{% block content %}
 		{% endblock %}

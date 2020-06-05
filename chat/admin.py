@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Room, RoomAdmin, PublicRoom
+from .models import Room, RoomAdmin, PublicRoom, Comment
 
 
 admin.site.register(
@@ -9,4 +9,4 @@ admin.site.register(
 )
 admin.site.register(RoomAdmin)
 admin.site.register(PublicRoom)
-
+admin.site.register(Comment)
