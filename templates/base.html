@@ -331,8 +331,6 @@ ul{
             <div class="display-table-row"><div class="online-user-type display-table-cell">Now Attending</div><div class="display-table-cell">:&nbsp;</div><div class="display-table-cell"><a class="total-onlineUser num-tip" href="javascript:;">{{ total_logged_in_users|default:0 }}</a></div></div>
             {% if room_detail %}
             <div class="display-table-row"><div class="online-user-type display-table-cell">This Location</div><div class="display-table-cell">:&nbsp;</div><div class="display-table-cell"><a class="current-onlineUser num-tip" href="javascript:;">{{ current_location_attending|default:0 }}</a></div></div>
-            {% else %}
-            <div class="display-table-row"><div class="online-user-type display-table-cell">Profile Settings</div><div class="display-table-cell"></div><div class="display-table-cell"><a class="current-onlineUser num-tip" href="javascript:;"></a></div></div>
             {% endif %}
         </div>
         <div id="user-info-avatar" class="user-info-avatar right">
@@ -365,11 +363,8 @@ ul{
 
     <div class="header-settings set-detail round-5">
 
-            <a class="set-item registration-info" href="javascript:void(0);">
-                Edit Registration Info
-            </a>
-
-        <a class="set-item download-mydata-btn" href="javascript:void(0);"> Download My Data</a>
+        <a class="set-item registration-info" href="/chat/room/detail/2/">Landing Page</a>
+        <a class="set-item download-mydata-btn" href="{% url 'chat:public_discuss' %}"> Public Discussion</a>
 
         <a class="set-item profile-setting-btn" href="{% if request.user.is_authenticated %}{% url 'profile_update' pk=request.user.user_profile.id %}{% endif %}"> Profile Settings</a>
 

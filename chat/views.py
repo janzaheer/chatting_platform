@@ -10,6 +10,7 @@ from django.http import Http404
 from .forms import RoomAdminForm, RoomForm, CommentForm
 from django.db import transaction
 from common.models import UserProfile
+from chat.models import Comment
 from common.views import get_all_logged_in_users, logged_in_user_ids
 
 
@@ -235,6 +236,13 @@ class PublicDiscussion(FormView):
     template_name = 'public_discussion.html'
     form_class = CommentForm
 
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(reverse('chat:public_discuss'))
+    
+    def form_invalid(self, form):
+        return super(PublicDiscussion, self).form_invalid(form)
+
     def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
             return super(
@@ -244,4 +252,9 @@ class PublicDiscussion(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(PublicDiscussion, self).get_context_data(**kwargs)
+        comments = Comment.objects.all()
+        context.update({
+            'comments': comments,
+            'total_logged_in_users': get_all_logged_in_users().count(),
+        })
         return context
