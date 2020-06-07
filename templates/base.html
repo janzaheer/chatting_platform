@@ -367,8 +367,9 @@ ul{
         <a class="set-item download-mydata-btn" href="{% url 'chat:public_discuss' %}"> Public Discussion</a>
 
         <a class="set-item profile-setting-btn" href="{% if request.user.is_authenticated %}{% url 'profile_update' pk=request.user.user_profile.id %}{% endif %}"> Profile Settings</a>
-
-        <a class="set-item broadcast-btn hide" href="javascript:void(0);">Broadcast Message</a>
+        {% if request.user.user_profile.type == request.user.user_profile.USER_TYPE_PAGE_ADMIN %}
+            <a class="set-item broadcast-btn hide" href="{% url 'chat:owner_dashboard' %}">Chat Rooms</a>
+        {% endif %}
         <a class="set-item rep-chat-report-btn hide" href="javascript:void(0);">Download Chat Report</a>
         <a class="set-item download-attendee-btn hide" href="javascript:void(0);">Download Attendee Report</a>
         <a class="set-item reset-briefcases-btn hide" href="javascript:void(0);">Reset All Briefcases</a>

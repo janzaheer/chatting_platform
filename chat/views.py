@@ -22,8 +22,11 @@ class OwnerDashboard(TemplateView):
             OwnerDashboard, self).get_context_data(**kwargs)
         rooms = Room.objects.all()
         members = User.objects.all()
+        roomadmins = RoomAdmin.objects.filter(
+            user__id=self.request.user.id)
         context.update({
             'rooms': rooms,
+            'roomadmins': roomadmins,
             'members': members
 
         })
@@ -73,7 +76,16 @@ class CreateRoomView(FormView):
 
     def form_valid(self, form):
         with transaction.atomic():
-            form.save()
+            room = form.save()
+
+            room_admin_form_kwargs = {
+                'room': room.id,
+                'user': self.request.user.id
+            }
+
+            room_admin_form = RoomAdminForm(room_admin_form_kwargs)
+            room_admin_form.save()
+
             return HttpResponseRedirect(reverse('chat:owner_dashboard'))
 
     def form_invalid(self, form):
@@ -113,13 +125,20 @@ class RoomDetailView(TemplateView):
         except :
             room_detail = 'Cancel'
         room = Room.objects.get(id=self.kwargs.get('pk'))
-        current_location_attending = room.room_member_chat_room.first().user.filter(
-            id__in=logged_in_user_ids()).count()
-        online_members = room_detail.user.filter(id__in=logged_in_user_ids())
+        try:
+            current_location_attending = room.room_member_chat_room.first().user.filter(
+                id__in=logged_in_user_ids()).count()
+            online_members = room_detail.user.filter(
+                id__in=logged_in_user_ids())
+        except:
+            current_location_attending = 0
+            online_members = []
+
+
         context.update({
             'room': room,
             'room_detail':room_detail,
-            'total_logged_in_users': get_all_logged_in_users().count(),
+            'total_logged_in_users': get_all_logged_in_users().count() - 1,
             'current_location_attending': current_location_attending,
             'online_members': online_members
 

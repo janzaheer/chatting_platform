@@ -4,7 +4,7 @@
 {% block header_text %}Owner Dashboard{% endblock %}
 
 {% block content %}
-
+<div style="background-color: #eeeeee; padding: 50px; margin-top: 20px">
 <div class="row border-bottom py-3">
     <div class="col-md-6">
         <h3>Owner Dashboard</h3>
@@ -24,17 +24,20 @@
                 <tr>
                     <th>Rooms Id</th>
                     <th>Name</th>
+                    <th class="text-center">chat</th>
                     <th class="text-center">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for room in rooms %}
+                {% for roomadmin in roomadmins %}
                     <tr>
-                        <td>{{room.id|stringformat:"03d"}}</td>
-                        <td>{{room.title|title}}</td>
+                        <td>{{roomadmin.room.id|stringformat:"03d"}}</td>
+                        <td>{{roomadmin.room.title|title}}</td>
                         <td class="text-center">
-                            <a class="btn btn-warning room-link" data-room-id="{{ room.id }}">Chat</a>
-                            <a class="btn btn-info" href="{% url 'chat:create_room_admin' pk=room.id %}">Crete page admin</a>
+                            <a class="btn btn-info" href="{% url 'chat:room_detail' pk=roomadmin.room.id %}">Chat</a>
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-info" href="{% url 'chat:create_room_admin' pk=roomadmin.room.id %}">Create room admin</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -45,20 +48,20 @@
     </div>
 </div>
 
-<div class="chat-users border">
-    <h4 class="head">Chats</h4>
-    <ul>
-        {% for user in members %}
-            <li class="col border-bottom py-2">
-                <span class="mb-0">{{user.id|stringformat:"03d"}}</span>
-                <span><strong>{{user.username|title}}</strong></span>
-                <span class="text-center float-right">
-                    <a class="btn btn-warning py-0">Chat</a>
-                </span>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
+{#<div class="chat-users border" style="background-color: #eeeeee">#}
+{#    <h4 class="head">Chats</h4>#}
+{#    <ul>#}
+{#        {% for user in members %}#}
+{#            <li class="col border-bottom py-2">#}
+{#                <span class="mb-0">{{user.id|stringformat:"03d"}}</span>#}
+{#                <span><strong>{{user.username|title}}</strong></span>#}
+{#                <span class="text-center float-right">#}
+{#                    <a class="btn btn-warning py-0">Chat</a>#}
+{#                </span>#}
+{#            </li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{#</div>#}
 
 
 <!-- Modal -->
@@ -97,7 +100,7 @@
         </div>
     </div>
 </div>
-
+</div>
 
 {% endblock %}
 
