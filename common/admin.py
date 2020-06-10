@@ -7,4 +7,8 @@ admin.site.register(
     list_display=["__unicode__", "id", "type"],
     list_display_links=["id"],
 )
-admin.site.register(MemberChatRoom)
+admin.site.register(
+    MemberChatRoom,
+    list_display=["__unicode__", "room", "status"],
+    list_display_links=["__unicode__"],
+)

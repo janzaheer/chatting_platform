@@ -68,7 +68,7 @@ class LoginView(FormView):
 			):
 				print("______________________o____________-")
 
-				return HttpResponseRedirect(reverse("index"))
+				return HttpResponseRedirect(reverse("chat:rooms"))
 			elif (
 						self.request.user.user_profile.type ==
 						self.request.user.user_profile.USER_TYPE_PAGE_ADMIN
@@ -90,7 +90,7 @@ class LoginView(FormView):
 			print("______________________o____________-")
 			return HttpResponseRedirect(reverse('chat:owner_dashboard'))
 		else:
-			return HttpResponseRedirect(reverse('chat:room_detail', kwargs={'pk':2}))
+			return HttpResponseRedirect(reverse('chat:rooms'))
 
 	def form_invalid(self, form):
 		return super(LoginView, self).form_invalid(form)

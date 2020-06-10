@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+# from common.models import MemberChatRoom
 
 
 class Room(models.Model):
@@ -24,6 +25,14 @@ class Room(models.Model):
         messages as they are generated.
         """
         return "room-%s" % self.id
+
+    def chat_member(self, user_id):
+        try:
+            return  self.room_member_chat_room.get(
+                user__id=user_id)
+        except:
+            return ''
+
 
 class PublicRoom(models.Model):
     """

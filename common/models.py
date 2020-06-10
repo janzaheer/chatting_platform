@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.db.models.signals import post_save
-from chat. models import Room
+from chat.models import Room
 
 class UserProfile(models.Model):
     USER_TYPE_USER = 'user'
@@ -78,16 +78,16 @@ post_save.connect(create_profile, sender=User)
 class MemberChatRoom(models.Model):
     CHAT_TYPE_REQUESTED = 'requested'
     CHAT_TYPE_APPROVED = 'approved'
-    CHAT_TYPE_CANCLE = 'cancle'
+    CHAT_TYPE_CANCLE = 'cancel'
 
     CHAT_TYPES = (
         (CHAT_TYPE_REQUESTED, 'requested'),
         (CHAT_TYPE_APPROVED, 'approved'),
-        (CHAT_TYPE_CANCLE, 'cancle'),
+        (CHAT_TYPE_CANCLE, 'cancel'),
     )
 
-    user = models.ManyToManyField(User, related_name='user_member_chat_room',max_length=100
-    )
+    user = models.ForeignKey(User, related_name='user_member_chat_room',
+                             on_delete=models.CASCADE)
     room = models.ForeignKey(Room, related_name='room_member_chat_room',
                              max_length=100, on_delete=models.CASCADE,
                              blank=True,null=True

@@ -8,7 +8,7 @@ urlpatterns = [
     path('room/status/requeste/', views.MemberPAgeRequestAPIView.as_view(),
          name='member_room_request'
          ),
-    path('room/chatting/', views.ChattingRooms.as_view(), name='room_chatting'),
+    path('room/chatting/', views.Rooms.as_view(), name='rooms'),
     path('owner/dashboard/', views.OwnerDashboard.as_view(), name='owner_dashboard'),
     path('room/owner/<int:pk>/create/admin/page/', 
     	views.CreatePageAdminView.as_view(),name='create_room_admin'),
@@ -17,4 +17,5 @@ urlpatterns = [
     path('room/admin/dashboard/', views.MemberPageRequestApproveAPIView.as_view(),
     	 name='member_request_approve'),
 	path('public/', views.PublicDiscussion.as_view(), name='public_discuss'),
+	path('room/<int:room_id>/user/<int:user_id>/request', views.JoinRequest.as_view(), name='room_request'),
 ]

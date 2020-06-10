@@ -146,24 +146,31 @@ class RoomDetailView(TemplateView):
         return context
 
 class IndexView(TemplateView):
-    template_name = 'index.html'
+	template_name = 'index.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return HttpResponseRedirect(reverse('user_login'))
-        return super(
-            IndexView, self).dispatch(request, *args, **kwargs)
+	def dispatch(self, request, *args, **kwargs):
+		if not self.request.user.is_authenticated:
+			return HttpResponseRedirect(reverse('user_login'))
 
-    def get_context_data(self, **kwargs):
-        context = super(
-            IndexView, self).get_context_data(**kwargs)
-        public_room = PublicRoom.objects.all()
-        context.update({
-            'room': public_room,
-            'logged_in_users': get_all_logged_in_users(),
+		if (
+					self.request.user.user_profile.type ==
+					self.request.user.user_profile.USER_TYPE_MEMBER
+		):
+			return HttpResponseRedirect(reverse('chat:rooms'))
 
-        })
-        return context
+		return super(
+			IndexView, self).dispatch(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(
+			IndexView, self).get_context_data(**kwargs)
+		public_room = PublicRoom.objects.all()
+		context.update({
+			'room': public_room,
+			'logged_in_users': get_all_logged_in_users(),
+
+		})
+		return context
 
 
 # @login_required
@@ -277,3 +284,30 @@ class PublicDiscussion(FormView):
             'total_logged_in_users': get_all_logged_in_users().count(),
         })
         return context
+
+
+class Rooms(TemplateView):
+    template_name = 'rooms/chating_room.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('user_login'))
+        return super(Rooms, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(Rooms, self).get_context_data(**kwargs)
+        context.update({
+            'total_logged_in_users': get_all_logged_in_users().count(),
+            'rooms': Room.objects.all().order_by('-id')
+        })
+        return context
+
+
+class JoinRequest(View):
+    def get(self, request, *args, **kwargs):
+        MemberChatRoom.objects.create(
+            user=User.objects.get(id=self.kwargs.get('user_id')),
+            room=Room.objects.get(id=self.kwargs.get('room_id')),
+            status=MemberChatRoom.CHAT_TYPE_REQUESTED,
+        )
+        return HttpResponseRedirect(reverse('chat:rooms'))

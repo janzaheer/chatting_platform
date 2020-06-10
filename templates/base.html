@@ -368,14 +368,12 @@ ul{
 
         <a class="set-item profile-setting-btn" href="{% if request.user.is_authenticated %}{% url 'profile_update' pk=request.user.user_profile.id %}{% endif %}"> Profile Settings</a>
         {% if request.user.user_profile.type == request.user.user_profile.USER_TYPE_PAGE_ADMIN %}
-            <a class="set-item broadcast-btn hide" href="{% url 'chat:owner_dashboard' %}">Chat Rooms</a>
+            <a class="set-item broadcast-btn hide" href="{% url 'chat:owner_dashboard' %}">Manage Rooms</a>
         {% endif %}
-        <a class="set-item rep-chat-report-btn hide" href="javascript:void(0);">Download Chat Report</a>
-        <a class="set-item download-attendee-btn hide" href="javascript:void(0);">Download Attendee Report</a>
-        <a class="set-item reset-briefcases-btn hide" href="javascript:void(0);">Reset All Briefcases</a>
-
-            <a style="display: none;" class="set-item profile-btn" href="javascript:void(0);">My Profile</a>
-            <a class="set-item login-out" href="/accounts/logout/">Logout</a>
+        {% if request.user.user_profile.type ==  request.user.user_profile.USER_TYPE_MEMBER %}
+            <a class="set-item rep-chat-report-btn hide" href="{% url 'chat:rooms' %}">All Rooms</a>
+        {% endif %}
+        <a class="set-item login-out" href="/accounts/logout/">Logout</a>
 
     </div>
     <div class="user-status-list">
