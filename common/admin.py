@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserProfile, MemberChatRoom
+from .models import UserProfile, MemberChatRoom, MessageModel
 
 
 admin.site.register(
@@ -12,3 +12,5 @@ admin.site.register(
     list_display=["__unicode__", "room", "status"],
     list_display_links=["__unicode__"],
 )
+
+admin.site.register(MessageModel)

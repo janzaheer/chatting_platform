@@ -169,3 +169,6 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
+
+MESSAGES_TO_LOAD = 15
+

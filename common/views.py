@@ -142,3 +142,20 @@ class UserProfileUpdateView(UpdateView):
 		})
 		return context
 
+
+
+class SingleChatView(TemplateView):
+	template_name = 'chat.html'
+
+	def dispatch(self, request, *args, **kwargs):
+		if not self.request.user.is_authenticated:
+			return HttpResponseRedirect(reverse('login'))
+		return super(
+			SingleChatView, self).dispatch(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(SingleChatView, self).get_context_data(**kwargs)
+		context.update({
+			'total_logged_in_users': get_all_logged_in_users().count() - 1,
+		})
+		return context

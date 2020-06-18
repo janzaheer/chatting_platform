@@ -146,31 +146,32 @@ class RoomDetailView(TemplateView):
         return context
 
 class IndexView(TemplateView):
-	template_name = 'index.html'
+    template_name = 'index.html'
 
-	def dispatch(self, request, *args, **kwargs):
-		if not self.request.user.is_authenticated:
-			return HttpResponseRedirect(reverse('user_login'))
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('user_login'))
 
-		if (
-					self.request.user.user_profile.type ==
-					self.request.user.user_profile.USER_TYPE_MEMBER
-		):
-			return HttpResponseRedirect(reverse('chat:rooms'))
+        if (
+                    self.request.user.user_profile.type ==
+                    self.request.user.user_profile.USER_TYPE_PAGE_ADMIN
+        ):
 
-		return super(
-			IndexView, self).dispatch(request, *args, **kwargs)
+            return HttpResponseRedirect(reverse('chat:owner_dashboard'))
+        else:
+            return HttpResponseRedirect(reverse("chat:rooms"))
 
-	def get_context_data(self, **kwargs):
-		context = super(
-			IndexView, self).get_context_data(**kwargs)
-		public_room = PublicRoom.objects.all()
-		context.update({
-			'room': public_room,
-			'logged_in_users': get_all_logged_in_users(),
 
-		})
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(
+            IndexView, self).get_context_data(**kwargs)
+        public_room = PublicRoom.objects.all()
+        context.update({
+            'room': public_room,
+            'logged_in_users': get_all_logged_in_users(),
+
+        })
+        return context
 
 
 # @login_required
@@ -297,7 +298,7 @@ class Rooms(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(Rooms, self).get_context_data(**kwargs)
         context.update({
-            'total_logged_in_users': get_all_logged_in_users().count(),
+            'total_logged_in_users': get_all_logged_in_users().count() - 1,
             'rooms': Room.objects.all().order_by('-id')
         })
         return context

@@ -5,6 +5,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 
 from chat.consumers import ChatConsumer
+from common.consumers import ChatConsumer as commonConsumer
 
 
 # The channel routing defines what connections get handled by what consumers,
@@ -24,6 +25,7 @@ application = ProtocolTypeRouter({
         URLRouter([
             # URLRouter just takes standard Django path() or url() entries.
             path("chat/stream/", ChatConsumer),
+            path("ws/", commonConsumer),
         ]),
     ),
 
