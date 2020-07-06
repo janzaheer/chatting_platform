@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("register/", views.RegisterView.as_view(), name="register"),
     path('chat/', include(('chat.urls', 'chat'), namespace='chat')),
+    path('user/<int:user_id>/update', views.UpdateStatusAPI.as_view(), name="update_status_api"),
+
 ]
 
 

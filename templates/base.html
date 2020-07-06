@@ -336,7 +336,7 @@ ul{
         <div id="user-info-avatar" class="user-info-avatar right">
 {#            <img src="https://cdn-akamai.6connex.com//user/2020/2/26/1585243263157_Andre.jpg" onerror="this.src='https://cdn-akamai.6connex.com/static/202005270800/assets//images/default-avatar.jpg';" title="Andre De britto">#}
             <img src="{% if request.user.user_profile.profile_image %}{{ request.user.user_profile.profile_image.url }}{% else %}https://cdn-akamai.6connex.com//user/2020/2/26/1585243263157_Andre.jpg{% endif %}">
-            <div class="user-status-info user-status-online">
+            <div id="userStatus" class="user-status-info user-status-online">
                 {% if request.user.user_profile.status == 'Online' %}
                 <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
                 {% elif request.user.user_profile.status == 'Away' %}
@@ -378,13 +378,13 @@ ul{
     </div>
     <div class="user-status-list">
         <ul>
-            <li onclick="VEP.event.trigger('Main.ChangeUserStatus', VEP.util.UserStatus.ONLINE)">
+            <li onclick="updateStatus('Online')">
                 <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Online
             </li>
-            <li onclick="VEP.event.trigger('Main.ChangeUserStatus', VEP.util.UserStatus.AWAY)">
+            <li onclick="updateStatus('Away')">
                  <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Away
             </li>
-            <li onclick="VEP.event.trigger('Main.ChangeUserStatus', VEP.util.UserStatus.DO_NOT_DISTURB)">
+            <li onclick="updateStatus('Do not disturb')">
                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> Do not disturb
             </li>
         </ul>
@@ -396,9 +396,28 @@ ul{
         function(){$(".set-detail").removeClass("show")}
         )
     $(".user-info-avatar").hover(function(){
-        $("#header-bar .user-status-list").addClass("show")},
-        function(){$("#header-bar .user-status-list").removeClass("show")}
-        )
+        $("#header-bar .user-status-list").addClass("show")}
+{#        function(){$("#header-bar .user-status-list").removeClass("show")}#}
+    );
+
+    $('.user-status-list').mouseleave(function() {
+        $("#header-bar .user-status-list").removeClass("show");
+    });
+
+    function updateStatus(status){
+        $.get("/user/{{ request.user.id }}/update?status="+status, function(data, s){
+{#            alert("Data: " + data.status + "\nStatus: " + s);#}
+            if (data.status == 'Online') {
+                document.getElementById('userStatus').innerHTML = '<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>';
+            } else if (data.status == 'Away') {
+                document.getElementById('userStatus').innerHTML = '<span class="glyphicon glyphicon-time" aria-hidden="true"></span>';
+            } else {
+                document.getElementById('userStatus').innerHTML = '<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>';
+            }
+            $("#header-bar .user-status-list").removeClass("show");
+        });
+    }
+
 </script>
 	<section>
 		{% block content %}

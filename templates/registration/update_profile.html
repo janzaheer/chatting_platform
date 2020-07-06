@@ -15,7 +15,7 @@
         <label><strong>Company Name</strong></label>
         <input type="text" name="company_name" value="{{object.company_name|default:""}}"><br>
         <label><strong>Profile Image</strong></label>
-        <input type="file" name="profile_image" value="{{ object.profile_image.url }}"><br>
+        <input type="file" name="profile_image" value="{% if object.profile_image %}{{ object.profile_image.url }}{% endif %}"><br>
         <label><strong>Status</strong></label>
         <select class="form-control" name="status">
             <option {% if object.status == "Online" %}selected="selected"{% endif %} value="Online">Online</option>

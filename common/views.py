@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, RedirectView, DeleteView,FormView, ListView, UpdateView
+from django.views.generic import TemplateView, RedirectView, DeleteView,FormView, ListView, UpdateView, View
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import forms as auth_forms
@@ -159,3 +159,19 @@ class SingleChatView(TemplateView):
 			'total_logged_in_users': get_all_logged_in_users().count() - 1,
 		})
 		return context
+
+
+class UpdateStatusAPI(View):
+	def get(self, request, *args, **kwargs):
+		try:
+			user = User.objects.get(id=self.kwargs.get('user_id'))
+		except:
+			raise Http404('User not found')
+
+		user.user_profile.status = self.request.GET.get('status')
+		user.user_profile.save(update_fields=['status'])
+
+		return JsonResponse({
+			'status': user.user_profile.status,
+			'message': 'Success'
+		})
