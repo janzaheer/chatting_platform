@@ -329,9 +329,9 @@ ul{
     <div class="header-user">
         <div class="left onlineUser-num display-inline-table hide" id="online-counter" style="display: block;">
             <div class="display-table-row"><div class="online-user-type display-table-cell">Now Attending</div><div class="display-table-cell">:&nbsp;</div><div class="display-table-cell"><a class="total-onlineUser num-tip" href="javascript:;">{{ total_logged_in_users|default:0 }}</a></div></div>
-            {% if room_detail %}
+{#            {% if room_detail %}#}
             <div class="display-table-row"><div class="online-user-type display-table-cell">This Location</div><div class="display-table-cell">:&nbsp;</div><div class="display-table-cell"><a class="current-onlineUser num-tip" href="javascript:;">{{ current_location_attending|default:0 }}</a></div></div>
-            {% endif %}
+{#            {% endif %}#}
         </div>
         <div id="user-info-avatar" class="user-info-avatar right">
 {#            <img src="https://cdn-akamai.6connex.com//user/2020/2/26/1585243263157_Andre.jpg" onerror="this.src='https://cdn-akamai.6connex.com/static/202005270800/assets//images/default-avatar.jpg';" title="Andre De britto">#}

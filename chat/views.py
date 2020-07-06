@@ -27,7 +27,8 @@ class OwnerDashboard(TemplateView):
         context.update({
             'rooms': rooms,
             'roomadmins': roomadmins,
-            'members': members
+            'members': members,
+            'total_logged_in_users': get_all_logged_in_users().count(),
 
         })
         return context
@@ -138,7 +139,7 @@ class RoomDetailView(TemplateView):
         context.update({
             'room': room,
             'room_detail':room_detail,
-            'total_logged_in_users': get_all_logged_in_users().count() - 1,
+            'total_logged_in_users': get_all_logged_in_users().count(),
             'current_location_attending': current_location_attending,
             'online_members': online_members
 
@@ -298,7 +299,7 @@ class Rooms(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(Rooms, self).get_context_data(**kwargs)
         context.update({
-            'total_logged_in_users': get_all_logged_in_users().count() - 1,
+            'total_logged_in_users': get_all_logged_in_users().count(),
             'rooms': Room.objects.all().order_by('-id')
         })
         return context
