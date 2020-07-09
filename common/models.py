@@ -100,11 +100,14 @@ class UserProfile(models.Model):
         max_length=200, choices=USER_TYPES, default=USER_TYPE_USER,
         blank=True, null=True)
     hometown = models.CharField(max_length=256, blank=True, null=True)
-    company_name = models.CharField(max_length=256, blank=True, null=True)
     location = models.CharField(max_length=256, blank=True, null=True)
     address = models.CharField(max_length=256, blank=True, null=True)
     status = models.CharField(max_length=100, choices=STATUSES,
                              default=STATUS_ONLINE, blank=True, null=True)
+    linked_in = models.URLField(max_length=256, blank=True, null=True)
+    google_plus = models.URLField(max_length=256, blank=True, null=True)
+    facebook = models.URLField(max_length=256, blank=True, null=True)
+    youtube = models.URLField(max_length=256, blank=True, null=True)
 
     def __unicode__(self):
         return self.user.username

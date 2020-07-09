@@ -138,7 +138,8 @@ class UserProfileUpdateView(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(UserProfileUpdateView, self).get_context_data(**kwargs)
 		context.update({
-			'total_logged_in_users': get_all_logged_in_users().count()
+			'total_logged_in_users': get_all_logged_in_users().count(),
+			'logged_in_members': get_all_logged_in_users(),
 		})
 		return context
 
@@ -156,7 +157,8 @@ class SingleChatView(TemplateView):
 	def get_context_data(self, **kwargs):
 		context = super(SingleChatView, self).get_context_data(**kwargs)
 		context.update({
-			'total_logged_in_users': get_all_logged_in_users().count()
+			'total_logged_in_users': get_all_logged_in_users().count(),
+			'logged_in_members': get_all_logged_in_users(),
 		})
 		return context
 

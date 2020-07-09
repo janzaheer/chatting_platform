@@ -29,6 +29,7 @@ class OwnerDashboard(TemplateView):
             'roomadmins': roomadmins,
             'members': members,
             'total_logged_in_users': get_all_logged_in_users().count(),
+            'logged_in_members': get_all_logged_in_users(),
 
         })
         return context
@@ -141,7 +142,8 @@ class RoomDetailView(TemplateView):
             'room_detail':room_detail,
             'total_logged_in_users': get_all_logged_in_users().count(),
             'current_location_attending': current_location_attending,
-            'online_members': online_members
+            'online_members': online_members,
+            'logged_in_members': get_all_logged_in_users(),
 
         })
         return context
@@ -284,6 +286,7 @@ class PublicDiscussion(FormView):
         context.update({
             'comments': comments,
             'total_logged_in_users': get_all_logged_in_users().count(),
+            'logged_in_members': get_all_logged_in_users(),
         })
         return context
 
@@ -300,6 +303,7 @@ class Rooms(TemplateView):
         context = super(Rooms, self).get_context_data(**kwargs)
         context.update({
             'total_logged_in_users': get_all_logged_in_users().count(),
+            'logged_in_members': get_all_logged_in_users(),
             'rooms': Room.objects.all().order_by('-id')
         })
         return context

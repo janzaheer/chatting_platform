@@ -22,6 +22,14 @@
             <option value="Away" {% if object.status == "Away" %}selected="selected"{% endif %}>Away</option>
             <option value="Do not Disturb" {% if object.status == "Do Not Disturb" %}selected="selected"{% endif %}>Do Not Disturb</option>
         </select><br>
+        <label><strong>LinkedIn</strong></label>
+        <input type="url" name="linked_in" value="{{object.linked_in|default:""}}" placeholder="Add your LinkedIn Url"><br>
+        <label><strong>Facebook</strong></label>
+        <input type="url" name="facebook" value="{{object.facebook|default:""}}" placeholder="Add your Facebook Url"><br>
+        <label><strong>Youtube</strong></label>
+        <input type="url" name="youtube" value="{{object.youtube|default:""}}" placeholder="Add your Youtube Url"><br>
+        <label><strong>Google Plus</strong></label>
+        <input type="url" name="google_plus" value="{{object.google_plus|default:""}}" placeholder="Add your Google Plus Url"><br>
         <input class="btn btn-primary mt-3" type="submit" value="Update">
     </form>
 

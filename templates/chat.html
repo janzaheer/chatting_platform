@@ -16,6 +16,13 @@
         <div class="page-header">
             <h1>Welcome to ChatApp
                 <small>Pick a user and start chatting!</small>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    {% if request.user.user_profile.type == request.user.user_profile.USER_TYPE_PAGE_ADMIN %}
+                        <a href="{% url 'chat:owner_dashboard' %}"><span aria-hidden="true">&times;</span></a>
+                    {% else %}
+                        <a href="{% url 'chat:rooms' %}"><span aria-hidden="true">&times;</span></a>
+                    {% endif %}
+                </button>
             </h1>
         </div>
         <div class="row">

@@ -328,9 +328,9 @@ ul{
                     <li id="user-info">
     <div class="header-user">
         <div class="left onlineUser-num display-inline-table hide" id="online-counter" style="display: block;">
-            <div class="display-table-row"><div class="online-user-type display-table-cell">Now Attending</div><div class="display-table-cell">:&nbsp;</div><div class="display-table-cell"><a class="total-onlineUser num-tip" href="javascript:;">{{ total_logged_in_users|default:0 }}</a></div></div>
+            <div class="display-table-row" style="cursor: pointer" data-toggle="modal" data-target="#attendingMembers"><div class="online-user-type display-table-cell">Now Attending</div><div class="display-table-cell">:&nbsp;</div><div class="display-table-cell"><a class="total-onlineUser num-tip" href="javascript:;">{{ total_logged_in_users|default:0 }}</a></div></div>
 {#            {% if room_detail %}#}
-            <div class="display-table-row"><div class="online-user-type display-table-cell">This Location</div><div class="display-table-cell">:&nbsp;</div><div class="display-table-cell"><a class="current-onlineUser num-tip" href="javascript:;">{{ current_location_attending|default:0 }}</a></div></div>
+            <div class="display-table-row" style="cursor: pointer" data-toggle="modal" data-target="#thisLocation"><div class="online-user-type display-table-cell">This Location</div><div class="display-table-cell">:&nbsp;</div><div class="display-table-cell"><a class="current-onlineUser num-tip" href="javascript:;">{{ current_location_attending|default:0 }}</a></div></div>
 {#            {% endif %}#}
         </div>
         <div id="user-info-avatar" class="user-info-avatar right">
@@ -363,10 +363,8 @@ ul{
 
     <div class="header-settings set-detail round-5">
 
-        <a class="set-item registration-info" href="/chat/room/detail/2/">Landing Page</a>
-        <a class="set-item download-mydata-btn" href="{% url 'chat:public_discuss' %}"> Public Discussion</a>
-
         <a class="set-item profile-setting-btn" href="{% if request.user.is_authenticated %}{% url 'profile_update' pk=request.user.user_profile.id %}{% endif %}"> Profile Settings</a>
+        <a class="set-item download-mydata-btn" href="{% url 'chat:public_discuss' %}"> Public Discussion</a>
         {% if request.user.user_profile.type == request.user.user_profile.USER_TYPE_PAGE_ADMIN %}
             <a class="set-item broadcast-btn hide" href="{% url 'chat:owner_dashboard' %}">Manage Rooms</a>
         {% endif %}
@@ -389,7 +387,10 @@ ul{
             </li>
         </ul>
     </div>
-</div></div>
+</div>
+    </div>
+
+
 <script type="text/javascript">
     $(".set-btn").hover(function(){
         $(".set-detail").addClass("show")},
@@ -426,3 +427,99 @@ ul{
 	{% block extra_body %}{% endblock %}
 </body>
 </html>
+
+<div class="modal fade" id="attendingMembers" tabindex="-1" role="dialog" aria-labelledby="roomMemeberModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="roomMemeberModalLabel">Attending Members</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <table class="table align-items-center table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Username</th>
+                                <th>Status</th>
+                                <th>Chat</th>
+                                <th>Social</th>
+                            </tr>
+                        </thead>
+                        {% if not logged_in_members %}
+                            <tr><td colspan="4" class="text-center">Members does not exits</td></tr>
+                        {% endif %}
+                        {% for user in logged_in_members %}
+                        <tr>
+                        <td>{{user.username}}</td>
+                        <td>{{user.user_profile.status|default:"online"}}</td>
+                        <td><a  href="{% url 'single_chat' %}"><i class="glyphicon glyphicon-comment" style="font-size: 20px"></i></a></td>
+                        <td>
+                            {% if user.user_profile.linked_in %}<a href="{{ user.user_profile.linked_in }}" target="_blank"><img style="height: 20px" src="{% static 'img/linkedin.png' %}"/></a> &nbsp;&nbsp;{% endif %}
+                            {% if user.user_profile.facebook %}<a href="{{ user.user_profile.facebook }}" target="_blank"><img style="height: 20px" src="{% static 'img/facebook.png' %} "/></a> &nbsp;&nbsp;{% endif %}
+                            {% if user.user_profile.youtube %}<a href="{{ user.user_profile.youtube }}" target="_blank"><img style="height: 20px" src="{% static 'img/youtube.png' %}"/></a> &nbsp;&nbsp;{% endif %}
+                            {% if user.user_profile.google_plus %}<a href="{{ user.user_profile.google_plus }}" target="_blank"><img style="height: 20px" src="{% static 'img/googleplus.png' %}"/></a> &nbsp;&nbsp;{% endif %}
+                        </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="thisLocation" tabindex="-1" role="dialog" aria-labelledby="roomMemeberModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="roomMemeberModalLabel">Members in Location</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <table class="table align-items-center table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Username</th>
+                                <th>Status</th>
+                                <th>Chat</th>
+                                <th>Social</th>
+                            </tr>
+                        </thead>
+                        {% if not online_member %}
+                            <tr><td colspan="4" class="text-center">Members does not exits</td></tr>
+                        {% endif %}
+                        {% for user in online_members %}
+                        <tr>
+                        <td>{{user.username}}</td>
+                        <td>{{user.user_profile.status|default:"online"}}</td>
+                            <td><a  href="{% url 'single_chat' %}"><i class="glyphicon glyphicon-comment" style="font-size: 20px"></i></a></td>
+                        <td>
+                            {% if user.user_profile.linked_in %}<a href="{{ user.user_profile.linked_in }}" target="_blank"><img style="height: 20px" src="{% static 'img/linkedin.png' %}"/></a> &nbsp;&nbsp;{% endif %}
+                            {% if user.user_profile.facebook %}<a href="{{ user.user_profile.facebook }}" target="_blank"><img style="height: 20px" src="{% static 'img/facebook.png' %} "/></a> &nbsp;&nbsp;{% endif %}
+                            {% if user.user_profile.youtube %}<a href="{{ user.user_profile.youtube }}" target="_blank"><img style="height: 20px" src="{% static 'img/youtube.png' %}"/></a> &nbsp;&nbsp;{% endif %}
+                            {% if user.user_profile.google_plus %}<a href="{{ user.user_profile.google_plus }}" target="_blank"><img style="height: 20px" src="{% static 'img/googleplus.png' %}"/></a> &nbsp;&nbsp;{% endif %}
+                        </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
