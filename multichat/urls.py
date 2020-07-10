@@ -8,6 +8,7 @@ from django.conf import settings
 
 from rest_framework.routers import DefaultRouter
 from common.api import MessageModelViewSet, UserModelViewSet
+from common.api_views import LoggedInUserAPI
 
 router = DefaultRouter()
 router.register(r'message', MessageModelViewSet, basename='message-api')
@@ -26,6 +27,8 @@ urlpatterns = [
     path("register/", views.RegisterView.as_view(), name="register"),
     path('chat/', include(('chat.urls', 'chat'), namespace='chat')),
     path('user/<int:user_id>/update', views.UpdateStatusAPI.as_view(), name="update_status_api"),
+
+    path('api/logged_in/users', LoggedInUserAPI.as_view(), name="logged_in_users_api")
 
 ]
 
